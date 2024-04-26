@@ -193,11 +193,23 @@ app.put("/", async (c) => {
 
 app.get("/bulk", async (c) => {
   try {
+    
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const blogs = await prisma.blog.findMany();
+    const data= c.req.query();
+
+    const s = parseInt(data.s);
+    const t = parseInt(data.t);
+
+    const skip = s;
+    const take = t;
+
+    const blogs = await prisma.blog.findMany({
+      skip,
+      take
+    });
 
     return c.json<ApiResponse>({
       success: true,
