@@ -4,6 +4,7 @@ import { user } from "./User";
 export interface ApiResponse {
     success: boolean;
     message?: string;
+    blog?: blog;
     blogs?: blog[];
     user?: user;
     userData?: {
@@ -13,5 +14,5 @@ export interface ApiResponse {
         token: string;
     }
     userId?: number;
-    blogId?: number;
+    blogId?: string;
 }
