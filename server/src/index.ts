@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { UserSchema } from "./schemas/User";
-import { user as userType } from "./types/User";
-import { ApiResponse } from "./types/ApiResponse";
+import { UserSchema } from "@hetav21/common-medium";
+import { user as userType } from "@hetav21/common-medium";
+import { ApiResponse } from "@hetav21/common-medium";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import bcrypt from "bcryptjs";
