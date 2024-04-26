@@ -6,4 +6,12 @@ export interface ApiResponse {
     message?: string;
     blogs?: blog[];
     user?: user;
+    userData?: {
+        id: number;
+        username: string;
+        name: string | null;
+        token: string;
+    }
+    userId?: number;
+    blogId?: number;
 }
