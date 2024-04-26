@@ -14,7 +14,7 @@ const app = new Hono<{
     }
 }>();
 
-app.post('/api/v1/user/signin', async (c) => {
+app.post('/', async (c) => {
     try{
       const body = await c.req.json() as userType;
     
