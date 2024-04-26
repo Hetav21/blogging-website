@@ -6,15 +6,12 @@
   "dependencies": {
     "@prisma/client": "^5.13.0",
     "@prisma/extension-accelerate": "^1.0.0",
-    "@types/bun": "^1.1.0",
     "hono": "^4.2.7",
     "prisma": "^5.13.0",
-    "server": "."
+    "zod": "^3.23.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240403.0",
-    "@types/bun": "latest",
-    "@types/node": "^20.12.7",
     "typescript": "^5.4.5",
     "wrangler": "^3.47.0"
   },
