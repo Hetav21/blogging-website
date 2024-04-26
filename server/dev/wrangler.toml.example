@@ -1,2 +1,6 @@
+name = "projectName"
+main = "./src/index.ts"
+compatibility_date = "2024-04-26"
+
 [vars]
 DATABASE_URL=""
