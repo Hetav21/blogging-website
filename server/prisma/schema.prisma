@@ -14,18 +14,18 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String?
-  username String @unique
-  password String 
-  blogs Blog[] 
+  id       Int     @id @default(autoincrement())
+  name     String?
+  username String  @unique
+  password String
+  blogs    Blog[]
 }
 
 model Blog {
-  id String @id @default(uuid())
-  authorId Int
-  content String
-  title String
+  id        String  @id @default(uuid())
+  authorId  Int
+  content   String
+  title     String
   published Boolean @default(false)
-  author User @relation(fields: [authorId], references: [id])
+  author    User    @relation(fields: [authorId], references: [id])
 }
