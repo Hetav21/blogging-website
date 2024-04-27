@@ -2,3 +2,5 @@ src
 bun.lockb
 README.md
 node_modules
+
+#  "type": "module",
