@@ -10,14 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hetav21/common-medium": "^1.2.5",
+    "@hetav21/common-medium": "^1.2.7",
     "axios": "^1.6.8",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
-    "sort-by": "^1.2.0"
+    "sort-by": "^0.0.2",
+    "use-async-effect": "^2.2.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
