@@ -1,6 +1,6 @@
 {
   "name": "@hetav21/common-medium",
-  "version": "1.1.8",
+  "version": "1.2.5",
   "main": "dist/index.js",
   "module": "index.ts",
   "description": "To create common folder for medium-clone project",
@@ -17,9 +17,12 @@
   "scripts": {
     "build": "tsc -b",
     "start": "node dist/index.js",
-    "publish": "npm publish --access public"
+    "deploy": "tsc -b && npm publish --access public"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "exclude": [
+    "node_modules"
+  ]
 }

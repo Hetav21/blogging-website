@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "client": ".",
+    "@hetav21/common-medium": "^1.2.5",
+    "axios": "^1.6.8",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
