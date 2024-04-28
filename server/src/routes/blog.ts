@@ -200,15 +200,29 @@ app.get("/bulk", async (c) => {
 
     const data= c.req.query();
 
-    const s = parseInt(data.s);
-    const t = parseInt(data.t);
+    const s = parseInt(data.s) || 0;
+    const t = parseInt(data.t) || 100;
 
     const skip = s;
     const take = t;
 
     const blogs = await prisma.blog.findMany({
       skip,
-      take
+      take,
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        authorId: true, 
+        publishedDate: true,
+        published: true,
+        author: {
+          select: {
+            name: true,
+            id: true,
+          }
+        }
+      }
     });
 
     return c.json<ApiResponse>({
@@ -251,7 +265,20 @@ app.get("/:id", async (c) => {
     const dbBlog = await prisma.blog.findUnique({
       where: {
         id: id,
-      },
+      }, select: {
+        id: true,
+        title: true,
+        content: true,
+        authorId: true, 
+        publishedDate: true,
+        published: true,
+        author: {
+          select: {
+            name: true,
+            id: true
+          }
+        }
+      }
     });
 
     if (!dbBlog) {
