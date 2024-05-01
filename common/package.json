@@ -1,6 +1,6 @@
 {
   "name": "@hetav21/common-medium",
-  "version": "1.2.8",
+  "version": "1.2.10",
   "main": "dist/index.js",
   "module": "index.ts",
   "description": "To create common folder for medium-clone project",

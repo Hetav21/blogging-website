@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useBlog } from "../hooks/blog"
 import { FullBlog } from "../components/FullBlog";
-import { AppBar } from "../components/AppBar";
+import { FullBlogSkeleton } from "../components/FullBlogSkeleton";
 
 export const Blog = () => { 
     const id = useLocation().pathname.substring(6);
@@ -9,15 +9,12 @@ export const Blog = () => {
     const {loading, blog} = useBlog({id});
 
     if(loading) {
-        return <div>Loading...</div>
+        return <FullBlogSkeleton></FullBlogSkeleton>
     }
-
-    console.log(blog);
 
     return (
         <div>
-            <AppBar />
-            <FullBlog blog={blog!}></FullBlog>
+            <FullBlog blog={blog!}></FullBlog>  
         </div>
     )
 }

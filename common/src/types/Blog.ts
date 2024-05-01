@@ -9,6 +9,7 @@ export type blog = {
   publishedDate?: Date;
   author?: {
     name?: user["name"],
-    id?: user["id"]
+    id?: user["id"],
+    description?: user["description"]
   }
 };

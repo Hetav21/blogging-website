@@ -222,6 +222,8 @@ app.get("/bulk", async (c) => {
             id: true,
           }
         }
+      }, orderBy: {
+        publishedDate: "desc"
       }
     });
 
