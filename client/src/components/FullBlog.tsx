@@ -26,7 +26,7 @@ export function FullBlog({ blog }: { blog: blog }) {
                     <div>
                         <div className="text-2xl font-bold">{`${blog.author?.name == null || undefined ? "Anonymous" : blog.author.name}`}</div>
 
-                        <div className="pt-2 text-slate-400">{blog.author?.description}</div>
+                        <div className="pt-2 text-slate-500 text-md">{blog.author?.description}</div>
                     </div>
 
                 </div>

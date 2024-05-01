@@ -11,7 +11,8 @@ export function Auth({ type }: { type: "signup" | "signin" }) {
     const [postInputs, setPostInputs] = useState<SignUpType>({
         name: "",
         username: "",
-        password: ""
+        password: "",
+        description: ""
     });
 
     async function sendRequest() {    
@@ -28,6 +29,10 @@ export function Auth({ type }: { type: "signup" | "signin" }) {
             const jwt = data.userData!.token;
             
             localStorage.setItem("token", jwt);
+            localStorage.setItem("user", data.userData!.name!);
+            localStorage.setItem("username", data.userData!.username);
+            localStorage.setItem("id", JSON.stringify(data.userData!.id));
+
             navigate("/blogs");
         } catch (e)  {
             console.log(e);
@@ -65,6 +70,12 @@ export function Auth({ type }: { type: "signup" | "signin" }) {
                     setPostInputs((c) => ({
                         ...c,
                         password: e.target.value
+                    }))
+                }}></LabelledInput>
+                <LabelledInput label="Description" placeholder="Description" onChange={(e) => {
+                    setPostInputs((c) => ({
+                        ...c,
+                        description: e.target.value
                     }))
                 }}></LabelledInput>
                 <button onClick={sendRequest} type="button" className="w-full mt-2 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{type === "signin" ? "Sign In" : "Sign Up"}</button>

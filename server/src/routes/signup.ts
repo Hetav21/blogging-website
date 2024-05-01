@@ -6,6 +6,7 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import bcrypt from "bcryptjs";
 import { decode, sign, verify } from "hono/jwt";
+import { signUpSchema } from "@hetav21/common-medium/dist/schemas/User";
 
 const app = new Hono<{
   Bindings: {
@@ -22,9 +23,10 @@ app.post("/", async (c) => {
       username: body.username,
       password: body.password,
       name: body.name,
+      description: body.description,
     };
 
-    const validatedUser = UserSchema.safeParse(user);
+    const validatedUser = signUpSchema.safeParse(user);
 
     if (!validatedUser.success) {
       return c.json<ApiResponse>(
@@ -70,7 +72,7 @@ app.post("/", async (c) => {
       select: {
         id: true,
         username: true,
-        name: true,
+        name: true
       },
     });
 

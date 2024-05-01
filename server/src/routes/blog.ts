@@ -10,8 +10,6 @@ import bcrypt from "bcryptjs";
 import { decode, sign, verify } from "hono/jwt";
 import { z } from "zod";
 
-// TODO: Update Types
-
 const app = new Hono<{
   Bindings: {
     DATABASE_URL: string;
@@ -219,7 +217,7 @@ app.get("/bulk", async (c) => {
         author: {
           select: {
             name: true,
-            id: true,
+            id: true
           }
         }
       }, orderBy: {
@@ -277,7 +275,8 @@ app.get("/:id", async (c) => {
         author: {
           select: {
             name: true,
-            id: true
+            id: true,
+            description: true
           }
         }
       }
