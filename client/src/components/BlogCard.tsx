@@ -60,7 +60,7 @@ export function BlogCardAvatar({ authorName, size = "small" }: {
     authorName: string;
     size: "small" | "large";
 }) {
-    return <div className={`relative inline-flex items-center justify-center ${size === "small" ? "w-8 h-8 " : "w-10 h-10 "} overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600`}>
+    return <div className={`cursor-pointer relative inline-flex items-center justify-center ${size === "small" ? "w-8 h-8 " : "w-10 h-10 "} overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600`}>
         <span className={`${size==="small" ? "text-sm " : "text-md "} font-medium text-gray-600 dark:text-gray-300`}>{authorName.split(" ").map((name) => name[0]).join("").toUpperCase()}</span>
     </div>
 }

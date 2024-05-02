@@ -1,11 +1,17 @@
 import { SignUpType } from "@hetav21/common-medium/dist/schemas/User";
 import axios from "axios";
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../../config"
 import { ApiResponse } from "@hetav21/common-medium";
 
 export function Auth({ type }: { type: "signup" | "signin" }) {
+    useEffect(()=>{
+        if(localStorage.getItem("token")) {
+            navigate("/blogs");
+        }
+    }, [])
+    
     const navigate = useNavigate();
 
     const [postInputs, setPostInputs] = useState<SignUpType>({
@@ -72,12 +78,12 @@ export function Auth({ type }: { type: "signup" | "signin" }) {
                         password: e.target.value
                     }))
                 }}></LabelledInput>
-                <LabelledInput label="Description" placeholder="Description" onChange={(e) => {
+                {type === "signup" ? <LabelledInput label="Description" placeholder="Description" onChange={(e) => {
                     setPostInputs((c) => ({
                         ...c,
                         description: e.target.value
                     }))
-                }}></LabelledInput>
+                }}></LabelledInput> : null}
                 <button onClick={sendRequest} type="button" className="w-full mt-2 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{type === "signin" ? "Sign In" : "Sign Up"}</button>
             </div>
         </div>
