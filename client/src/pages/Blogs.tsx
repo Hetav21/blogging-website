@@ -25,7 +25,7 @@ export function Blogs() {
         </div>
     }
 
-    return <div>
+    return <div className="transition duration-150 ease-in-out">
         <div className="flex justify-center">
             <div>
                 {blogs.map((blog) => {

@@ -19,7 +19,7 @@ const app = new Hono<{
 
 app.use("/*", async (c, next) => {
   const authHeader = c.req.header("authorization") || "";
-
+  
   try {
     const token = authHeader?.split(" ")[1];
 
@@ -224,6 +224,69 @@ app.get("/bulk", async (c) => {
         publishedDate: "desc"
       }
     });
+
+    return c.json<ApiResponse>({
+      success: true,
+      blogs: blogs,
+    });
+  } catch (e) {
+    console.log(e);
+    return c.json<ApiResponse>(
+      {
+        success: false,
+        message: "Internal Server Error",
+      },
+      500
+    );
+  }
+});
+
+app.get("/profile", async (c) => {
+  try {
+    
+    const payload = await c.get("jwtPayload");
+    const id = payload.id;
+
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+    
+    const data= c.req.query();
+    
+    console.log(c.get("jwtPayload"));
+    
+    const s = parseInt(data.s) || 0;
+    const t = parseInt(data.t) || 100;
+
+    const skip = s;
+    const take = t;
+
+    const blogs = await prisma.blog.findMany({
+      skip,
+      take,
+      where: {
+        authorId: id
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        authorId: true, 
+        publishedDate: true,
+        published: true,
+        author: {
+          select: {
+            name: true,
+            id: true
+          }
+        }
+      }, orderBy: {
+        publishedDate: "desc"
+      }
+    });
+
+    console.log(payload, id);
+    console.log(blogs);
 
     return c.json<ApiResponse>({
       success: true,
