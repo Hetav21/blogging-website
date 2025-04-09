@@ -1,13 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import { Blog } from "./pages/Blog"
-import { Blogs } from "./pages/Blogs"
-import { Signin } from "./pages/Signin"
-import { Signup } from "./pages/Signup"
-import { Publish } from "./pages/Publish"
-import { AppBar } from "./components/AppBar"
-import { Landing } from "./pages/Landing"
-import { MyBlogs } from "./pages/MyBlogs"
-import { ProfileUpdate } from "./pages/ProfileUpdate"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AppBar } from "./components/AppBar";
+import { Blog } from "./pages/Blog";
+import { Blogs } from "./pages/Blogs";
+import { Landing } from "./pages/Landing";
+import { MyBlogs } from "./pages/MyBlogs";
+import { ProfileUpdate } from "./pages/ProfileUpdate";
+import { Publish } from "./pages/Publish";
+import { Signin } from "./pages/Signin";
+import { Signup } from "./pages/Signup";
 
 function App() {
   return (
@@ -26,8 +26,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </>
-  )
+  );
 }
-
 
 export default App;

@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@hetav21/common-medium": "^1.2.11",
+    "@hetav21/blogging-common": "^1.2.11",
     "axios": "^1.6.8",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
