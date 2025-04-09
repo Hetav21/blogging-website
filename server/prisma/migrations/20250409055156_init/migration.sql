@@ -4,6 +4,7 @@ CREATE TABLE "User" (
     "name" TEXT,
     "username" TEXT NOT NULL,
     "password" TEXT NOT NULL,
+    "description" TEXT NOT NULL DEFAULT '',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -15,6 +16,7 @@ CREATE TABLE "Blog" (
     "content" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "published" BOOLEAN NOT NULL DEFAULT false,
+    "publishedDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Blog_pkey" PRIMARY KEY ("id")
 );
