@@ -1,22 +1,27 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { UserSchema } from "@hetav21/common-medium";
-import { user as userType } from "@hetav21/common-medium";
-import { ApiResponse } from "@hetav21/common-medium";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
-import bcrypt from "bcryptjs";
-import { decode, sign, verify } from "hono/jwt";
 import signupRouter from "./routes/signup";
 import signinRouter from "./routes/signin";
 import blogRouter from "./routes/blog";
+import { Context } from "hono";
 
-const app = new Hono();
+const app = new Hono<{
+  Bindings: {
+    ALLOWED_ORIGINS: string;
+  };
+}>();
 
-app.use("/api/*", cors());
+app.use(async (c, next) => {
+  cors({
+    origin: c.env.ALLOWED_ORIGINS.split(","),
+    credentials: true,
+  });
+
+  await next();
+});
 
 app.all("/", (c) => {
-  return c.text("Hello World");
+  return c.text("Server Healthy");
 });
 
 app.route("/api/v1/user/signup", signupRouter);

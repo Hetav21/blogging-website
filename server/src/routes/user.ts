@@ -1,10 +1,12 @@
-import { Hono } from "hono";
-import { UserSchema } from "@hetav21/common-medium";
-import { user as userType } from "@hetav21/common-medium";
-import { ApiResponse } from "@hetav21/common-medium";
+import {
+  ApiResponse,
+  UserSchema,
+  user as userType,
+} from "@hetav21/blogging-common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import bcrypt from "bcryptjs";
+import { Hono } from "hono";
 import { sign, verify } from "hono/jwt";
 
 const app = new Hono<{
@@ -26,7 +28,7 @@ app.use("/*", async (c, next) => {
           success: false,
           message: "Token Error",
         },
-        401
+        401,
       );
     }
 
@@ -38,7 +40,7 @@ app.use("/*", async (c, next) => {
           success: false,
           message: "Token Error",
         },
-        401
+        401,
       );
     }
 
@@ -51,7 +53,7 @@ app.use("/*", async (c, next) => {
         success: false,
         message: "Token Error",
       },
-      401
+      401,
     );
   }
 });
@@ -73,7 +75,7 @@ app.post("/profile/update", async (c) => {
           success: false,
           message: "Invalid Input",
         },
-        411
+        411,
       );
     }
 
@@ -84,7 +86,26 @@ app.post("/profile/update", async (c) => {
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
+    const dbUser = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
 
+    if (!dbUser) {
+      return c.json<ApiResponse>(
+        {
+          success: false,
+          message: "User not found",
+        },
+        404,
+      );
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      user.password,
+      dbUser.password,
+    );
 
     if (!isPasswordCorrect) {
       return c.json<ApiResponse>(
@@ -92,7 +113,7 @@ app.post("/profile/update", async (c) => {
           success: false,
           message: "Username and Password dont match",
         },
-        403
+        403,
       );
     }
 
@@ -100,7 +121,7 @@ app.post("/profile/update", async (c) => {
       "Bearer " +
       (await sign(
         { id: dbUser.id, username: dbUser.username },
-        c.env.JWT_SECRET
+        c.env.JWT_SECRET,
       ));
 
     return c.json<ApiResponse>(
@@ -114,7 +135,7 @@ app.post("/profile/update", async (c) => {
           token: token,
         },
       },
-      200
+      200,
     );
   } catch (e) {
     console.log(e);
@@ -123,7 +144,7 @@ app.post("/profile/update", async (c) => {
         success: false,
         message: "Server Error",
       },
-      500
+      500,
     );
   }
 });

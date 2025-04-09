@@ -1,12 +1,10 @@
-import { Hono } from "hono";
-import { UserSchema } from "@hetav21/common-medium";
-import { user as userType } from "@hetav21/common-medium";
-import { ApiResponse } from "@hetav21/common-medium";
+import { ApiResponse, user as userType } from "@hetav21/blogging-common";
+import { signUpSchema } from "@hetav21/blogging-common/dist/schemas/User";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import bcrypt from "bcryptjs";
-import { decode, sign, verify } from "hono/jwt";
-import { signUpSchema } from "@hetav21/common-medium/dist/schemas/User";
+import { Hono } from "hono";
+import { sign } from "hono/jwt";
 
 const app = new Hono<{
   Bindings: {
@@ -34,7 +32,7 @@ app.post("/", async (c) => {
           success: false,
           message: "Invalid Input",
         },
-        411
+        411,
       );
     }
 
@@ -59,7 +57,7 @@ app.post("/", async (c) => {
           success: false,
           message: "User Already Exists",
         },
-        409
+        409,
       );
     }
 
@@ -72,7 +70,7 @@ app.post("/", async (c) => {
       select: {
         id: true,
         username: true,
-        name: true
+        name: true,
       },
     });
 
@@ -80,7 +78,7 @@ app.post("/", async (c) => {
       "Bearer " +
       (await sign(
         { id: newUser.id, username: newUser.username },
-        c.env.JWT_SECRET
+        c.env.JWT_SECRET,
       ));
 
     return c.json<ApiResponse>({
@@ -100,7 +98,7 @@ app.post("/", async (c) => {
         success: false,
         message: "Server Error",
       },
-      500
+      500,
     );
   }
 });

@@ -1,13 +1,8 @@
-import { Hono } from "hono";
-import { UserSchema } from "@hetav21/common-medium";
-import { BlogBasicSchema, BlogSchema } from "@hetav21/common-medium";
-import { user as userType } from "@hetav21/common-medium";
-import { blog as blogType } from "@hetav21/common-medium";
-import { ApiResponse } from "@hetav21/common-medium";
+import { ApiResponse, BlogBasicSchema } from "@hetav21/blogging-common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import bcrypt from "bcryptjs";
-import { decode, sign, verify } from "hono/jwt";
+import { Hono } from "hono";
+import { verify } from "hono/jwt";
 import { z } from "zod";
 
 const app = new Hono<{
@@ -19,7 +14,7 @@ const app = new Hono<{
 
 app.use("/*", async (c, next) => {
   const authHeader = c.req.header("authorization") || "";
-  
+
   try {
     const token = authHeader?.split(" ")[1];
 
@@ -29,7 +24,7 @@ app.use("/*", async (c, next) => {
           success: false,
           message: "Token Error",
         },
-        401
+        401,
       );
     }
 
@@ -41,7 +36,7 @@ app.use("/*", async (c, next) => {
           success: false,
           message: "Token Error",
         },
-        401
+        401,
       );
     }
 
@@ -54,7 +49,7 @@ app.use("/*", async (c, next) => {
         success: false,
         message: "Token Error",
       },
-      401
+      401,
     );
   }
 });
@@ -87,7 +82,7 @@ app.post("/", async (c) => {
           success: false,
           message: "Invalid Blog",
         },
-        400
+        400,
       );
     }
 
@@ -116,7 +111,7 @@ app.post("/", async (c) => {
         success: false,
         message: "Internal Server Error",
       },
-      500
+      500,
     );
   }
 });
@@ -147,7 +142,7 @@ app.put("/", async (c) => {
           success: false,
           message: "Invalid Blog or Id",
         },
-        400
+        400,
       );
     }
 
@@ -184,19 +179,18 @@ app.put("/", async (c) => {
         success: false,
         message: "Internal Server Error",
       },
-      500
+      500,
     );
   }
 });
 
 app.get("/bulk", async (c) => {
   try {
-    
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
 
-    const data= c.req.query();
+    const data = c.req.query();
 
     const s = parseInt(data.s) || 0;
     const t = parseInt(data.t) || 100;
@@ -211,18 +205,19 @@ app.get("/bulk", async (c) => {
         id: true,
         title: true,
         content: true,
-        authorId: true, 
+        authorId: true,
         publishedDate: true,
         published: true,
         author: {
           select: {
             name: true,
-            id: true
-          }
-        }
-      }, orderBy: {
-        publishedDate: "desc"
-      }
+            id: true,
+          },
+        },
+      },
+      orderBy: {
+        publishedDate: "desc",
+      },
     });
 
     return c.json<ApiResponse>({
@@ -236,25 +231,24 @@ app.get("/bulk", async (c) => {
         success: false,
         message: "Internal Server Error",
       },
-      500
+      500,
     );
   }
 });
 
 app.get("/profile", async (c) => {
   try {
-    
     const payload = await c.get("jwtPayload");
     const id = payload.id;
 
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate());
-    
-    const data= c.req.query();
-    
+
+    const data = c.req.query();
+
     console.log(c.get("jwtPayload"));
-    
+
     const s = parseInt(data.s) || 0;
     const t = parseInt(data.t) || 100;
 
@@ -265,24 +259,25 @@ app.get("/profile", async (c) => {
       skip,
       take,
       where: {
-        authorId: id
+        authorId: id,
       },
       select: {
         id: true,
         title: true,
         content: true,
-        authorId: true, 
+        authorId: true,
         publishedDate: true,
         published: true,
         author: {
           select: {
             name: true,
-            id: true
-          }
-        }
-      }, orderBy: {
-        publishedDate: "desc"
-      }
+            id: true,
+          },
+        },
+      },
+      orderBy: {
+        publishedDate: "desc",
+      },
     });
 
     console.log(payload, id);
@@ -299,7 +294,7 @@ app.get("/profile", async (c) => {
         success: false,
         message: "Internal Server Error",
       },
-      500
+      500,
     );
   }
 });
@@ -317,7 +312,7 @@ app.get("/:id", async (c) => {
           success: false,
           message: "Invalid Id",
         },
-        400
+        400,
       );
     }
 
@@ -328,21 +323,22 @@ app.get("/:id", async (c) => {
     const dbBlog = await prisma.blog.findUnique({
       where: {
         id: id,
-      }, select: {
+      },
+      select: {
         id: true,
         title: true,
         content: true,
-        authorId: true, 
+        authorId: true,
         publishedDate: true,
         published: true,
         author: {
           select: {
             name: true,
             id: true,
-            description: true
-          }
-        }
-      }
+            description: true,
+          },
+        },
+      },
     });
 
     if (!dbBlog) {
@@ -351,7 +347,7 @@ app.get("/:id", async (c) => {
           success: false,
           message: "Blog Not Found",
         },
-        404
+        404,
       );
     }
 
@@ -367,7 +363,7 @@ app.get("/:id", async (c) => {
         success: false,
         message: "Internal Server Error",
       },
-      500
+      500,
     );
   }
 });

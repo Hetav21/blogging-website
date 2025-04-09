@@ -4,7 +4,7 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
-    "@hetav21/common-medium": "^1.2.12",
+    "@hetav21/blogging-common": "^1.2.12",
     "@prisma/client": "^5.13.0",
     "@prisma/extension-accelerate": "^1.0.0",
     "@types/bcryptjs": "^2.4.6",
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240403.0",
+    "@types/node": "^22.14.0",
     "typescript": "^5.4.5",
     "wrangler": "^3.47.0"
   },

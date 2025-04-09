@@ -1,10 +1,12 @@
-import { Hono } from "hono";
-import { UserSchema } from "@hetav21/common-medium";
-import { user as userType } from "@hetav21/common-medium";
-import { ApiResponse } from "@hetav21/common-medium";
+import {
+  ApiResponse,
+  UserSchema,
+  user as userType,
+} from "@hetav21/blogging-common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import bcrypt from "bcryptjs";
+import { Hono } from "hono";
 import { sign } from "hono/jwt";
 
 const app = new Hono<{
@@ -31,7 +33,7 @@ app.post("/", async (c) => {
           success: false,
           message: "Invalid Input",
         },
-        411
+        411,
       );
     }
 
@@ -51,13 +53,13 @@ app.post("/", async (c) => {
           success: false,
           message: "User Doesnt Exists",
         },
-        409
+        409,
       );
     }
 
     const isPasswordCorrect = await bcrypt.compare(
       user.password,
-      dbUser.password
+      dbUser.password,
     );
 
     if (!isPasswordCorrect) {
@@ -66,7 +68,7 @@ app.post("/", async (c) => {
           success: false,
           message: "Username and Password dont match",
         },
-        403
+        403,
       );
     }
 
@@ -74,7 +76,7 @@ app.post("/", async (c) => {
       "Bearer " +
       (await sign(
         { id: dbUser.id, username: dbUser.username },
-        c.env.JWT_SECRET
+        c.env.JWT_SECRET,
       ));
 
     return c.json<ApiResponse>(
@@ -88,7 +90,7 @@ app.post("/", async (c) => {
           token: token,
         },
       },
-      200
+      200,
     );
   } catch (e) {
     console.log(e);
@@ -97,7 +99,7 @@ app.post("/", async (c) => {
         success: false,
         message: "Server Error",
       },
-      500
+      500,
     );
   }
 });
